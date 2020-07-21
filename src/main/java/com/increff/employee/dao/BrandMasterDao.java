@@ -1,5 +1,5 @@
 package com.increff.employee.dao;
-
+//data access object layer...this layer interact with the databases...So service layer basically call this layer
 import java.util.List;
 
 import javax.persistence.EntityManager;

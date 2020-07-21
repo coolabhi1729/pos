@@ -1,6 +1,10 @@
+com/increff/employee/model/ProductData.class
+com/increff/employee/model/ProductForm.class
 com/increff/employee/util/StringUtil.class
 com/increff/employee/controller/SampleController.class
 com/increff/employee/model/LoginForm.class
+com/increff/employee/service/ProductService.class
+com/increff/employee/controller/ProductApiController.class
 com/increff/employee/controller/AppUiController.class
 com/increff/employee/controller/AbstractUiController.class
 com/increff/employee/dao/UserDao.class
@@ -21,8 +25,10 @@ com/increff/employee/service/AboutAppService.class
 com/increff/employee/controller/AdminApiController.class
 com/increff/employee/pojo/UserPojo.class
 com/increff/employee/util/UserPrincipal.class
+com/increff/employee/dao/ProductDao.class
 com/increff/employee/controller/SiteUiController.class
 com/increff/employee/controller/AboutApiController.class
+com/increff/employee/pojo/ProductPojo.class
 com/increff/employee/model/BrandMasterData.class
 com/increff/employee/dao/BrandMasterDao.class
 com/increff/employee/controller/AppRestControllerAdvice.class
