@@ -10,7 +10,6 @@
 //
 //import org.springframework.stereotype.Repository;
 //
-//import com.increff.employee.pojo.BrandMasterPojo;
 //import com.increff.employee.pojo.ProductPojo;
 //
 //@Repository

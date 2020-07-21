@@ -35,7 +35,7 @@ public class BrandMasterApiController {
 	@ApiOperation(value = "Deletes a brand")
 	@RequestMapping(path = "/api/brand/{id}", method = RequestMethod.DELETE)
 	// /api/1
-	public void delete(@PathVariable int id) {
+	public void delete(@PathVariable int id) throws ApiException {
 		service.delete(id);
 	}
 

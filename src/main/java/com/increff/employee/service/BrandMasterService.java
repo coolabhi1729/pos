@@ -27,13 +27,14 @@ public class BrandMasterService {
 			throw new ApiException("category cannot be empty");
 		}
 		if (dao.select(p.getBrand(), p.getCategory()) != null) {
-			throw new ApiException("brand and category shoul be of unique combination");
+			throw new ApiException("brand and category should be of unique combination");
 		}
 		dao.insert(p);
 	}
 
 	@Transactional
-	public void delete(int id) {
+	public void delete(int id) throws ApiException {
+		getCheck(id);
 		dao.delete(id);
 	}
 
@@ -60,7 +61,7 @@ public class BrandMasterService {
 		if (dao.select(p.getBrand(), p.getCategory()) != null) {
 			throw new ApiException("Requires unique combination of Brand and category.");
 		}
-		
+
 		ex.setBrand(p.getBrand());
 		ex.setCategory(p.getCategory());
 		dao.update(ex);

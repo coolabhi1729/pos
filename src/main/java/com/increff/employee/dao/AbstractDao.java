@@ -20,5 +20,5 @@ public abstract class AbstractDao {
 	protected EntityManager em() {
 		return em;
 	}
-
+//can add additional functionalities
 }

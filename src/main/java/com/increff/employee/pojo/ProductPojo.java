@@ -29,6 +29,7 @@
 //	public void setBarcode(String barcode) {
 //		this.barcode = barcode;
 //	}
+//
 ////cautious in Brand_Category
 //	public int getBrand_category() {
 //		return brand_category;

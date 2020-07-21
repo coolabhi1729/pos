@@ -6,7 +6,6 @@ com/increff/employee/controller/AbstractUiController.class
 com/increff/employee/dao/UserDao.class
 com/increff/employee/service/ApiException.class
 com/increff/employee/model/InfoData.class
-com/increff/employee/dao/BrandMatserInMemDao.class
 com/increff/employee/controller/BrandMasterApiController.class
 com/increff/employee/controller/LoginController.class
 com/increff/employee/spring/ControllerConfig.class
