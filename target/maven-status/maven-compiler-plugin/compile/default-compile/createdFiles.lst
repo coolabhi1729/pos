@@ -6,7 +6,6 @@ com/increff/employee/controller/AbstractUiController.class
 com/increff/employee/dao/UserDao.class
 com/increff/employee/service/ApiException.class
 com/increff/employee/model/InfoData.class
-com/increff/employee/service/FileUploadValidatorService.class
 com/increff/employee/dao/BrandMatserInMemDao.class
 com/increff/employee/controller/BrandMasterApiController.class
 com/increff/employee/controller/LoginController.class
@@ -34,6 +33,5 @@ com/increff/employee/spring/SpringConfig.class
 com/increff/employee/model/UserForm.class
 com/increff/employee/dao/AbstractDao.class
 com/increff/employee/model/AboutAppData.class
-com/increff/employee/model/FileUpload.class
 com/increff/employee/model/UserData.class
 com/increff/employee/util/SecurityUtil.class
