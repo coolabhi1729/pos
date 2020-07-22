@@ -13,11 +13,14 @@ import org.springframework.stereotype.Repository;
 import com.increff.employee.pojo.ProductPojo;
 
 @Repository
-public class ProductDao extends AbstractDao{
+public class ProductDao extends AbstractDao {
 	private static String delete_id = "delete from ProductPojo p where id=:id";
 	private static String select_id = "select p from ProductPojo p where id=:id";
 	private static String select_all = "select p from ProductPojo p";
 	private static String select_barcode = "select p from ProductPojo p where barcode=:barcode";
+
+	// private static String count_barcode = "SELECT COUNT(p.barcode) from
+	// ProductPojo p WHERE barcode=:barcode";
 	@PersistenceContext
 	private EntityManager em;
 
@@ -37,21 +40,22 @@ public class ProductDao extends AbstractDao{
 		query.setParameter("id", id);
 		return getSingle(query);
 	}
-	//Select statements may be more will be needed...
+
+	// Select statements may be more will be needed...
 	public List<ProductPojo> selectAll() {
 		TypedQuery<ProductPojo> query = getQuery(select_all, ProductPojo.class);
 		return query.getResultList();
 	}
 
-	public ProductPojo select(String barcode){
+	public ProductPojo select(String barcode) {
 		TypedQuery<ProductPojo> query = getQuery(select_barcode, ProductPojo.class);
 		query.setParameter("barcode", barcode);
 		return getSingle(query);
 	}
 
-	
-	//from here update productpojo since pojo is data object itself so it doesn't need any method here to interact 
-	//we can directly update from the service layer itself...
+	// from here update productpojo since pojo is data object itself so it doesn't
+	// need any method here to interact
+	// we can directly update from the service layer itself...
 	public void update(ProductPojo p) {
 
 	}

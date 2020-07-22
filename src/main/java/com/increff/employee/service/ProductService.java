@@ -1,5 +1,6 @@
 package com.increff.employee.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -24,12 +25,12 @@ public class ProductService {
 	@Transactional(rollbackOn = ApiException.class)
 	public void add(ProductPojo p) throws ApiException {
 		normalize(p);
-		
+
 		if (StringUtil.isEmpty(p.getBarcode())) {// here can be change to particular fixed length of string
 			throw new ApiException("Barcode cannot be empty!");
 		}
-		if(dao.select(p.getBarcode())!=null) {
-			throw new ApiException("This Barcode already exists:"+p.getBarcode());
+		if (dao.select(p.getBarcode()) != null) {
+			throw new ApiException("This Barcode already exists:" + p.getBarcode());
 		}
 		if (StringUtil.isEmpty(p.getProduct_name())) {
 			throw new ApiException("Product Name cannot be empty!");
@@ -38,15 +39,16 @@ public class ProductService {
 			throw new ApiException("MRP cannot be zero or less than zero!");
 		}
 		referentialCheck(p);
-		
+
 		dao.insert(p);
 	}
-	
+
 	/* Important */
 	// May be need to come back here on doing UI part of ProductPojo part
 	@Transactional
 	public boolean referentialCheck(ProductPojo p) throws ApiException {
-		List<BrandMasterPojo> brand_list = brand_dao.selectAll();
+		List<BrandMasterPojo> brand_list = new ArrayList<BrandMasterPojo>();
+		brand_list = brand_dao.selectAll();
 		int brand_category = p.getBrand_category();// local variable brand_category
 
 		for (BrandMasterPojo ex : brand_list) {
@@ -57,7 +59,7 @@ public class ProductService {
 		throw new ApiException("Referential Integrity Broken...Please Enter Valid Brand and category combination!");
 	}
 
-	@Transactional
+	@Transactional(rollbackOn = ApiException.class)
 	public void delete(int id) throws ApiException {
 		getCheck(id);
 		dao.delete(id);
@@ -74,42 +76,51 @@ public class ProductService {
 	}
 
 	/*
-	 * If this much run in update the n try to run code with changing UI for brand+category
-	 * combination
+	 * If this much run in update the n try to run code with changing UI for
+	 * brand+category combination
 	 */
 	@Transactional(rollbackOn = ApiException.class)
 	public void update(int id, ProductPojo p) throws ApiException {
 		normalize(p);
-		//if getCheck succeed then ex will have old BrandMasterPojo object present in the database
+		// if getCheck succeed then ex will have old BrandMasterPojo object present in
+		// the database
 		ProductPojo ex = getCheck(id);
-		
+
 		// Barcode can't be empty
 		if (StringUtil.isEmpty(p.getBarcode())) {// can add string length related features here!
 			throw new ApiException("Barcode cannot remain empty!");
 		}
-		
+		// Barcode should be unique
 		/*
-		 * // barcode should be unique...it will always throw error due to its own entry...Thinking!!!
-		 * if (dao.select(p.getBarcode()) != null) { throw
-		 * new ApiException("This barcode exists for other product!"); }
+		 * if (dao.select(p.getBarcode()) != null) { throw new
+		 * ApiException("This barcode exists for other product!"); }
 		 */
-		
 		// product name cant be empty
 		if (StringUtil.isEmpty(p.getProduct_name())) {
 			throw new ApiException("Product name cannot remain empty!");
 		}
-		//check on MRP
+		// check on MRP
 		if (p.getMrp() <= 0) {
 			throw new ApiException("MRP must be greater than zero!");
 		}
-		//Referential integrity check
+		// Referential integrity check
 		referentialCheck(p);
 		
+		/*
+		 * Important error here
+		 */
+		//Barcode should be unique check...This logic is not working try it later...1.45PM
+		if (ex.getBarcode() != p.getBarcode()) {
+			if (dao.select(p.getBarcode()) != null) {
+				throw new ApiException("This barcode exists for other product...lollllz!");
+			}
+			ex.setBarcode(p.getBarcode());
+		}
 		ex.setBarcode(p.getBarcode());
 		ex.setBrand_category(p.getBrand_category());
 		ex.setProduct_name(p.getProduct_name());
 		ex.setMrp(p.getMrp());
-		
+
 		dao.update(ex);
 	}
 

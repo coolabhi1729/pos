@@ -75,7 +75,7 @@ public class ProductApiController {
 		d.setMrp(p.getMrp());
 		return d;
 	}
-	//converting into brand-master-pojo
+	//converting into product-pojo
 	protected static ProductPojo convert(ProductForm f) {
 		ProductPojo p = new ProductPojo();
 		p.setBarcode(f.getBarcode());

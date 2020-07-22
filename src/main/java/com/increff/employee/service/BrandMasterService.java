@@ -1,5 +1,6 @@
 package com.increff.employee.service;
 
+import java.util.ArrayList;
 //This layer implements the application logic....
 import java.util.List;
 
@@ -19,6 +20,8 @@ public class BrandMasterService {
 
 	@Autowired
 	private BrandMasterDao dao;
+
+	@Autowired
 	private ProductDao product_dao;
 
 	@Transactional(rollbackOn = ApiException.class)
@@ -39,21 +42,31 @@ public class BrandMasterService {
 	/* Important */
 	// After implementing backend part of product needs to change delete method
 	// since it breaks referential integrity.Time:8.00PM
-	// Delete rule is set here for referential integrity:Time 1.00M
+	// Delete rule is set here for referential integrity:Time 1.00AM
 	@Transactional(rollbackOn = ApiException.class)
 	public void delete(int id) throws ApiException {
-		referentialCheck(id);
+
+		if (referentialCheck(id)) {
+			throw new ApiException("Referential Integrity failed...");
+		}
+
 		getCheck(id);
 		dao.delete(id);
 	}
 
 	// referential check is not working giving server error:500
-	/*
-	 * @Transactional public void referentialCheck(int id) throws ApiException {
-	 * List<ProductPojo> prod_list = product_dao.selectAll(); for (ProductPojo ex :
-	 * prod_list) { if (ex.getBrand_category() == id) { throw new
-	 * ApiException("Referential Integrity failed..."); } } }
-	 */
+
+	@Transactional
+	public boolean referentialCheck(int id) throws ApiException {
+		List<ProductPojo> prod_list = new ArrayList<ProductPojo>();
+		prod_list = product_dao.selectAll();
+		for (ProductPojo ex : prod_list) {
+			if (ex.getBrand_category() == id) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	@Transactional(rollbackOn = ApiException.class)
 	public BrandMasterPojo get(int id) throws ApiException {
