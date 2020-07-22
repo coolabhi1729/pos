@@ -27,14 +27,14 @@ public class ProductApiController {
 	@Autowired
 	private ProductService service;
 	
-	@ApiOperation(value = "Adds a Brand")
+	@ApiOperation(value = "Add a Product")
 	@RequestMapping(path = "/api/product", method = RequestMethod.POST)
 	public void add(@RequestBody ProductForm form) throws ApiException {
 		ProductPojo p = convert(form);
 		service.add(p);
 	}
 	
-	@ApiOperation(value = "Deletes a brand")
+	@ApiOperation(value = "Deletes a product")
 	@RequestMapping(path = "/api/product/{id}", method = RequestMethod.DELETE)
 	// /api/1
 	public void delete(@PathVariable int id) throws ApiException {
