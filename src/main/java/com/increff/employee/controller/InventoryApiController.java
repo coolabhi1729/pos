@@ -23,8 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.increff.employee.model.InventoryData;
 import com.increff.employee.model.InventoryForm;
 import com.increff.employee.pojo.InventoryPojo;
+import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.service.ApiException;
 import com.increff.employee.service.InventoryService;
+import com.increff.employee.service.ProductService;
+import com.increff.employee.util.StringUtil;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -33,6 +37,9 @@ import io.swagger.annotations.ApiOperation;
 public class InventoryApiController {
 	@Autowired
 	private InventoryService service;
+	
+	@Autowired
+	private ProductService product_service;
 
 	@ApiOperation(value = "Add a new product to Inventory ")
 	@RequestMapping(path = "/api/inventory", method = RequestMethod.POST)
@@ -42,49 +49,59 @@ public class InventoryApiController {
 	}
 
 	@ApiOperation(value = "Deletes an Inventory item")
-	@RequestMapping(path = "/api/inventory/{product_id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable int product_id) throws ApiException {
-		service.delete(product_id);
+	@RequestMapping(path = "/api/inventory/{id}", method = RequestMethod.DELETE)
+	public void delete(@PathVariable int id) throws ApiException {
+		service.delete(id);
 	}
 
 	@ApiOperation(value = "Get a single product by ID")
-	@RequestMapping(path = "/api/inventory/{product_id}", method = RequestMethod.GET)
-	public InventoryData get(@PathVariable int product_id) throws ApiException {
-		InventoryPojo p = service.get(product_id);
+	@RequestMapping(path = "/api/inventory/{id}", method = RequestMethod.GET)
+	public InventoryData get(@PathVariable int id) throws ApiException {
+		InventoryPojo p = service.get(id);
 		return convert(p);
 	}
 
 	@ApiOperation(value = "Get list of all Inventory Items")
 	@RequestMapping(path = "/api/inventory", method = RequestMethod.GET)
-	public List<InventoryData> getAll() {
+	public List<InventoryData> getAll() throws ApiException {
 		List<InventoryPojo> list = service.getAll();
-		List<InventoryData> list2 = new ArrayList<InventoryData>();
+		List<InventoryData> data_list = new ArrayList<InventoryData>();
 		for (InventoryPojo p : list) {
-			list2.add(convert(p));
+			data_list.add(convert(p));
 		}
-		return list2;
+		return data_list;
 	}
 
 	@ApiOperation(value = "Updates an Inventory item")
-	@RequestMapping(path = "/api/inventory/{product_id}", method = RequestMethod.PUT)
-	public void update(@PathVariable int product_id, @RequestBody InventoryForm f) throws ApiException {
+	@RequestMapping(path = "/api/inventory/{id}", method = RequestMethod.PUT)
+	public void update(@PathVariable int id, @RequestBody InventoryForm f) throws ApiException {
 		InventoryPojo p = convert(f);
-		service.update(product_id, p);
+		if(p.getId()!=id) {
+			throw new ApiException("product barcode and id mismatch!");
+		}
+		service.updatePlus (id, p);
 	}
 
-	protected static InventoryData convert(InventoryPojo p) {
+	private InventoryData convert(InventoryPojo p) throws ApiException{
 		InventoryData d = new InventoryData();
-		d.setProduct_id(p.getProduct_id());
+		ProductPojo productPojo = product_service.get(p.getId());
+		
+		d.setId(p.getId());
+		d.setBarcode(productPojo.getBarcode());
 		d.setQuantity(p.getQuantity());
 		return d;
 	}
 
 	// converting into inventory-pojo
-	protected static InventoryPojo convert(InventoryForm f) {
-		InventoryPojo p = new InventoryPojo();
-
-		p.setProduct_id(f.getProduct_id());
-		p.setQuantity(f.getQuantity());
-		return p;
+	private InventoryPojo convert(InventoryForm form) throws ApiException {
+		if (StringUtil.isEmpty(form.getBarcode())) {
+			throw new ApiException("Barcode cannot be empty");
+		}
+		InventoryPojo inventoryPojo = new InventoryPojo();
+		ProductPojo productPojo = product_service.get(form.getBarcode());
+		
+		inventoryPojo.setId(productPojo.getId());
+		inventoryPojo.setQuantity(form.getQuantity());
+		return inventoryPojo;
 	}
 }

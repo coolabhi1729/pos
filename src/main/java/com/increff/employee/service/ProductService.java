@@ -1,5 +1,5 @@
 package com.increff.employee.service;
-
+//product service update part logic not working
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.increff.employee.dao.BrandMasterDao;
+import com.increff.employee.dao.InventoryDao;
 import com.increff.employee.dao.ProductDao;
 import com.increff.employee.pojo.BrandMasterPojo;
 import com.increff.employee.pojo.ProductPojo;
@@ -20,8 +21,11 @@ public class ProductService {
 	private ProductDao dao;
 
 	@Autowired
-	BrandMasterDao brand_dao;
-
+	private BrandMasterDao brand_dao;
+	
+	@Autowired
+	private InventoryDao inventory_dao;
+	
 	@Transactional(rollbackOn = ApiException.class)
 	public void add(ProductPojo p) throws ApiException {
 		normalize(p);
@@ -61,7 +65,12 @@ public class ProductService {
 
 	@Transactional(rollbackOn = ApiException.class)
 	public void delete(int id) throws ApiException {
+		//existential check for product id
 		getCheck(id);
+		//referential check for inventory table
+		if(inventory_dao.select(id)!=null) {
+			throw new ApiException("Referential Integrity Broken. Inventory is not empty for this product");
+		}
 		dao.delete(id);
 	}
 
@@ -70,46 +79,43 @@ public class ProductService {
 		return getCheck(id);
 	}
 
+	@Transactional(rollbackOn = ApiException.class)
+	public ProductPojo get(String barcode) throws ApiException {
+		return dao.select(barcode);
+	}
+
 	@Transactional
 	public List<ProductPojo> getAll() {
 		return dao.selectAll();
 	}
 
-	/*
-	 * If this much run in update the n try to run code with changing UI for
-	 * brand+category combination
-	 */
 	@Transactional(rollbackOn = ApiException.class)
 	public void update(int id, ProductPojo p) throws ApiException {
 		normalize(p);
-		// if getCheck succeed then ex will have old BrandMasterPojo object present in
-		// the database
+
 		ProductPojo ex = getCheck(id);
 
-		// Barcode can't be empty
+		// Bar code can't be empty
 		if (StringUtil.isEmpty(p.getBarcode())) {// can add string length related features here!
 			throw new ApiException("Barcode cannot remain empty!");
 		}
-		// Barcode should be unique
-		/*
-		 * if (dao.select(p.getBarcode()) != null) { throw new
-		 * ApiException("This barcode exists for other product!"); }
-		 */
-		// product name cant be empty
+
+		// product name can't be empty
 		if (StringUtil.isEmpty(p.getProduct_name())) {
 			throw new ApiException("Product name cannot remain empty!");
 		}
 		// check on MRP
-		if (p.getMrp() <= 0) {
+		if (p.getMrp() < 0) {
 			throw new ApiException("MRP must be greater than zero!");
 		}
-		// Referential integrity check
+		// Referential integrity check...select by brand_category combn also done the same
 		referentialCheck(p);
-		
+
 		/*
 		 * Important error here
 		 */
-		//Barcode should be unique check...This logic is not working try it later...1.45PM
+		// Barcode should be unique check...This logic is not working...I don't know why?
+		// later...1.45PM
 		if (ex.getBarcode() != p.getBarcode()) {
 			if (dao.select(p.getBarcode()) != null) {
 				throw new ApiException("This barcode exists for other product...lollllz!");

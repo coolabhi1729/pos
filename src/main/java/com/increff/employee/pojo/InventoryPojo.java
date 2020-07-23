@@ -6,19 +6,20 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "inventory", uniqueConstraints = { @UniqueConstraint(columnNames = { "product_id" }) })
+@Table(name = "inventory", uniqueConstraints = { @UniqueConstraint(columnNames = { "id" }) })
 public class InventoryPojo {
+	
 	@Id
-	private int product_id;
+	private int id;
 	
 	private int quantity;
 	
-	public int getProduct_id() {
-		return product_id;
+	public int getId() {
+		return id;
 	}
 
-	public void setProduct_id(int product_id) {
-		this.product_id = product_id;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public int getQuantity() {
