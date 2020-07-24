@@ -91,7 +91,7 @@ public class OrderApiController {
 		orderItem.setQuantity(quantity);
 		inventory.setQuantity(-quantity);
 		inventoryService.updatePlus(inventory.getId(), inventory);
-		orderItem.setSellingPrice(form.getMrp());
+		orderItem.setSellingPrice(form.getSp());
 		return orderItem;
 	}
 	
