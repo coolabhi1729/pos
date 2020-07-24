@@ -32,12 +32,9 @@ public class BrandMasterApiController {
 		service.add(p);
 	}
 
-	/*
-	 * Check for referential integrity implementation after the Product part
-	 */
+
 	@ApiOperation(value = "Deletes a brand")
 	@RequestMapping(path = "/api/brand/{id}", method = RequestMethod.DELETE)
-	// /api/1
 	public void delete(@PathVariable int id) throws ApiException {
 		service.delete(id);
 	}
@@ -60,7 +57,7 @@ public class BrandMasterApiController {
 		return list2;
 	}
 
-	@ApiOperation(value = "Updates an brand")
+	@ApiOperation(value = "Updates a brand")
 	@RequestMapping(path = "/api/brand/{id}", method = RequestMethod.PUT)
 	public void update(@PathVariable int id, @RequestBody BrandMasterForm f) throws ApiException {
 		BrandMasterPojo p = convert(f);
