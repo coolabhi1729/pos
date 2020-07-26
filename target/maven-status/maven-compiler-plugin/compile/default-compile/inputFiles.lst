@@ -1,8 +1,10 @@
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/pojo/BrandMasterPojo.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/pojo/InventoryPojo.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/controller/SiteUiController.java
+/home/opener/Desktop/pos/src/main/java/com/increff/employee/controller/ReportController.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/util/UserPrincipal.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/spring/SpringSecurityInitializer.java
+/home/opener/Desktop/pos/src/main/java/com/increff/employee/model/SalesReportForm.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/model/InfoData.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/pojo/UserPojo.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/dao/InventoryDao.java
@@ -37,8 +39,11 @@
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/spring/SpringConfig.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/pojo/ProductPojo.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/controller/AppUiController.java
+/home/opener/Desktop/pos/src/main/java/com/increff/employee/service/ReportService.java
+/home/opener/Desktop/pos/src/main/java/com/increff/employee/service/SalesReportService.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/service/UserService.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/controller/InventoryApiController.java
+/home/opener/Desktop/pos/src/main/java/com/increff/employee/model/SalesReportData.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/controller/SampleController.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/service/AboutAppService.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/service/InventoryService.java
@@ -57,4 +62,5 @@
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/dao/AbstractDao.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/controller/ProductApiController.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/controller/OrderApiController.java
+/home/opener/Desktop/pos/src/main/java/com/increff/employee/model/InventoryReportData.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/model/InventoryData.java

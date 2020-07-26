@@ -77,6 +77,20 @@ public class BrandMasterService {
 	public List<BrandMasterPojo> getAll() {
 		return dao.selectAll();
 	}
+	
+	@Transactional(rollbackOn=ApiException.class)
+	public BrandMasterPojo get(String brand,String category) throws ApiException{
+		if(StringUtil.isEmpty(brand)) {
+			throw new ApiException("Brand cannot be empty!");
+		}
+		if(StringUtil.isEmpty(category)) {
+			throw new ApiException("Category cannot be empty!");
+		}
+		if(dao.select(brand, category)==null) {
+			throw new ApiException("Brand and Category combination not present!");
+		}
+		return dao.select(brand, category);		
+	}
 
 	@Transactional(rollbackOn = ApiException.class)
 	public void update(int id, BrandMasterPojo p) throws ApiException {

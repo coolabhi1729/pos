@@ -52,11 +52,4 @@ public class ProductDao extends AbstractDao {
 		query.setParameter("barcode", barcode);
 		return getSingle(query);
 	}
-
-	// from here update productpojo since pojo is data object itself so it doesn't
-	// need any method here to interact
-	// we can directly update from the service layer itself...
-	public void update(ProductPojo p) {
-
-	}
 }

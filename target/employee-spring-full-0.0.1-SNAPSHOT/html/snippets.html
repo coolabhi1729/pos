@@ -68,6 +68,29 @@
       <li class="nav-item">
         <a class="nav-link" th:href="@{/ui/order}">Order</a>
       </li>
+
+      <!-- Experimenting on Report Dropdown -->
+      <li class="nav-item">
+
+        <div class="btn-group">
+        <button type="button" class="btn btn-secondary btn-sm">Reports</button>
+        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="sr-only">Toggle Dropdown</span>
+        </button>
+
+        <div class="dropdown-menu">
+          <a class="dropdown-item" th:href="@{/ui/brand_report}">Brand Report</a>
+           <a class="dropdown-item" th:href="@{/ui/inventory_report}">Inventory Report</a>
+          <a class="dropdown-item" th:href="@{/ui/sales_report}">Sales</a>
+          <!-- <div class="dropdown-divider"></div> -->
+         <!--  <a class="dropdown-item" th:href="@{/ui/report}">Reportlink</a> -->
+        </div>
+
+        </div>
+
+      </li>
+
+
       <li class="nav-item">
         <a class="nav-link" th:href="@{/ui/admin}">Admin</a>
       </li>

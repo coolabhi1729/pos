@@ -5,6 +5,7 @@ com/increff/employee/controller/AppUiController.class
 com/increff/employee/controller/AbstractUiController.class
 com/increff/employee/model/InfoData.class
 com/increff/employee/controller/BrandMasterApiController.class
+com/increff/employee/controller/ReportController.class
 com/increff/employee/spring/ControllerConfig.class
 com/increff/employee/service/InventoryService.class
 com/increff/employee/util/IOUtil.class
@@ -19,13 +20,16 @@ com/increff/employee/pojo/ProductPojo.class
 com/increff/employee/pojo/InventoryPojo.class
 com/increff/employee/controller/AppRestControllerAdvice.class
 com/increff/employee/util/CookieUtil.class
+com/increff/employee/model/SalesReportForm.class
 com/increff/employee/model/UserForm.class
 com/increff/employee/dao/AbstractDao.class
 com/increff/employee/model/AboutAppData.class
 com/increff/employee/service/OrderService.class
 com/increff/employee/model/UserData.class
 com/increff/employee/util/SecurityUtil.class
+com/increff/employee/model/SalesReportData.class
 com/increff/employee/model/ProductData.class
+com/increff/employee/service/ReportService.class
 com/increff/employee/model/LoginForm.class
 com/increff/employee/service/ProductService.class
 com/increff/employee/model/OrderItemsData.class
@@ -35,6 +39,7 @@ com/increff/employee/dao/UserDao.class
 com/increff/employee/service/ApiException.class
 com/increff/employee/pojo/OrderItemsPojo.class
 com/increff/employee/controller/LoginController.class
+com/increff/employee/service/SalesReportService.class
 com/increff/employee/model/MessageData.class
 com/increff/employee/service/BrandMasterService.class
 com/increff/employee/spring/DbConfig.class
@@ -54,4 +59,5 @@ com/increff/employee/service/UserService.class
 com/increff/employee/spring/SpringConfig.class
 com/increff/employee/pojo/OrderPojo.class
 com/increff/employee/model/OrderItemsForm.class
+com/increff/employee/model/InventoryReportData.class
 com/increff/employee/service/OrderItemsService.class

@@ -96,7 +96,7 @@ public class ProductService {
 		ProductPojo ex = getCheck(id);
 
 		// Bar code can't be empty
-		if (StringUtil.isEmpty(p.getBarcode())) {// can add string length related features here!
+		if (StringUtil.isEmpty(p.getBarcode())) {
 			throw new ApiException("Barcode cannot remain empty!");
 		}
 
@@ -116,18 +116,18 @@ public class ProductService {
 		 */
 		// Barcode should be unique check...This logic is not working...I don't know why?
 		// later...1.45PM
-		if (ex.getBarcode() != p.getBarcode()) {
-			if (dao.select(p.getBarcode()) != null) {
-				throw new ApiException("This barcode exists for other product...lollllz!");
-			}
+		if (ex.getBarcode().equals(p.getBarcode())) {
 			ex.setBarcode(p.getBarcode());
 		}
-		ex.setBarcode(p.getBarcode());
+		else {
+			if (dao.select(p.getBarcode()) != null) {
+				throw new ApiException("This barcode exists for other product...lollllz!"+ex.getBarcode()+"  "+p.getBarcode());
+			}
+		}
+		//ex.setBarcode(p.getBarcode());
 		ex.setBrand_category(p.getBrand_category());
 		ex.setProduct_name(p.getProduct_name());
 		ex.setMrp(p.getMrp());
-
-		dao.update(ex);
 	}
 
 	@Transactional
