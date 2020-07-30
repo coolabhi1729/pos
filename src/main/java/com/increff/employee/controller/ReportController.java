@@ -92,7 +92,7 @@ public class ReportController {
 	
 	@ApiOperation(value = "Get Sales Report in between dates")
 	@RequestMapping(path = "/api/sales_report", method = RequestMethod.POST)
-	public SalesReportData getSalesReport(@RequestBody SalesReportForm form) throws ApiException {
+	public List<SalesReportData> getSalesReport(@RequestBody SalesReportForm form) throws ApiException {
 		return salesReportService.getSalesReport(form);
 	}
 }

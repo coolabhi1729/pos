@@ -55,7 +55,7 @@
 			      <input type="text" class="form-control" name="product_name" id="inputProductName" placeholder="Enter Product name">
 			    </div>
 			  	</div>
-
+				&nbsp;
 			  <div class="form-group">
 			    <label for="inputMrp" class="col-sm-2 col-form-label">MRP</label>
 			    <div class="col-sm-10">
@@ -86,7 +86,7 @@
 	<table class="table table-striped" id="product-table">
 	  <thead>
 	    <tr>
-	      <th scope="col">ID</th>
+	      <!-- <th scope="col">ID</th> -->
 	      <th scope="col">Barcode</th>
 	      <th scope="col">Brand</th>
 	      <th scope="col">Category</th>
@@ -97,7 +97,7 @@
 	  </thead>
 	  <tbody>
 	    <tr>
-	      <td>1</td>
+	      <!-- <td>1</td> -->
 	      <td>Dabur001</td>
 	      <td>Dabur</td>
 	      <td>Medicine</td>
@@ -128,7 +128,7 @@
 				<div class="form-group">
 			    <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
 			    <div class="col-sm-10">
-			      <input type="text" class="form-control" name="barcode" placeholder="Enter Barcode">
+			      <input type="text" class="form-control" name="barcode" value="barcode" disabled>
 			    </div>
 			  	</div>
 
@@ -168,6 +168,7 @@
 			 	</div>
 
  	        <input type="hidden" name="id" >
+ 	        <input type="hidden" name="barcode">
 			</form>        
       </div>
 

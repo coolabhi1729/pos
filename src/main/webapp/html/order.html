@@ -10,126 +10,29 @@
 
 <div class="container">
 
-<h3>Order</h3>
-
- <div class="row">
-	 <div class="col-12">
-			<form class="form-inline" id="order-item-form">
-			  <div class="form-group">
-			    <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" name="barcode" id="inputBarcode" placeholder="Enter Barcode">
-			    </div>
-			  </div>
-
-			  <div class="form-group">
-			    <label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
-			    <div class="col-sm-10">
-			      <input type="text"  class="form-control" name="quantity" id="inputQuantity" placeholder="Enter Quantity">
-			    </div>
-			  </div>
-
-			  <div class="form-group">
-			    <label for="inputSp" class="col-sm-2 col-form-label">SP</label>
-			    <div class="col-sm-10">
-			      <input type="text"  class="form-control" name="sp" id="inputSp" placeholder="Enter SP">
-			    </div>
-			  </div>
-
-			  <button type="button" class="btn btn-primary" id="add-order-item">Add</button>
-			  &nbsp;
-			</form>
-	 </div>	
-</div> 
-
-<!-- Blank Row -->
-<div class="row">
-	&nbsp;
-</div>
-<div class="row">
-
- <!-- Table -->
- <div class="col-12">
-	<table class="table table-striped" id="order-items-table">
-	  <thead>
-	    <tr>
-	      <th scope="col">S No</th>
-	      <th scope="col">Product Name</th>
-	      <th scope="col">Quantity</th>
-	      <th scope="col">SP</th>
-	      <th scope="col">Total Price</th>
-	      <th scope="col">Actions</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	  </tbody>
-	</table>
-
-</div>
-</div>
-
-<div class="row">
-	<div class="col-md-2">
-		<button type="button" class="btn btn-success" id="confirm-order">Confirm order</button>
-	</div>
-	<div class="col-md-2">
-		<a th:href="@{/api/order/invoice}" target="_blank" class="btn btn-primary">Generate Invoice</a>
-	</div>
-</div>
-
-
-<div class="modal" tabindex="-1" role="dialog" id="edit-order-item-modal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Edit OrderItem</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-body">
-			<form class="form-inline" id="order-item-edit-form">
-
-			  <div class="form-group">
-			    <label for="inputProductName" class="col-sm-2 col-form-label">Product Name</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" name="productName" readonly="">
-			    </div>
-			  </div>
-
-			  <div class="form-group">
-			    <label for="inputQuantity" class="col-sm-2 col-form-label">Quantity</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" name="quantity" placeholder="Enter Quantity">
-			    </div>
-			  </div>
-
-			   <div class="form-group">
-			    <label for="inputSp" class="col-sm-2 col-form-label">SP</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" name="sp" placeholder="Enter SP">
-			    </div>
-			  </div>
-
- 	        <input type="hidden" name="barcode" >
-			</form>        
-      
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-success" id="update-order-item">Update</button>
-      </div>
-    </div>
+<div class="card w-50">
+  <div class="card-body">
+    <h3 class="card-title">Create a new order</h3>
+    <p class="card-text">Click on the below button to create a new order.</p>
+    <a th:href="@{/ui/order/createOrder}" class="btn btn-success">Create</a>
   </div>
 </div>
+
+<div class="card w-50">
+  <div class="card-body">
+    <h3 class="card-title">View Orders</h3>
+    <p class="card-text">Click on the below button to view all orders and Generate invoice.</p>
+    <a th:href="@{/ui/order/viewOrders}" class="btn btn-info">View</a>
+  </div>
+</div>
+
 
 
 </div> <!-- Container end-->
 
 <footer th:replace="snippets.html :: name_footer"></footer>
 
-<script th:src="@{/static/order.js}"></script>
+<!-- <script th:src="@{/static/order.js}"></script> -->
 
 </body>	
 

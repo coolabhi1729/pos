@@ -67,16 +67,19 @@ function getInventoryList(){
 }
 
 function deleteInventory(id){
-	var url = getInventoryUrl() + "/" + id;
+	var result=confirm("Are you sure to delete this?");
+	if(result){
+		var url = getInventoryUrl() + "/" + id;
 
-	$.ajax({
-	   url: url,
-	   type: 'DELETE',
-	   success: function(data) {
-	   		getInventoryList();  
-	   },
-	   error: handleAjaxError
-	});
+		$.ajax({
+		   url: url,
+		   type: 'DELETE',
+		   success: function(data) {
+		   		getInventoryList();  
+		   },
+		   error: handleAjaxError
+		});
+	}
 }
 
 // FILE UPLOAD METHODS
@@ -142,10 +145,10 @@ function displayInventoryList(data){
 	for(var i in data){
 		var e = data[i];
 		
-		var buttonHtml = '<button onclick="deleteInventory(' + e.id + ')">delete</button>'
-		buttonHtml += ' <button onclick="displayEditInventory(' + e.id + ')">add items</button>'
+		var buttonHtml = '<button type="button" onclick="deleteInventory(' + e.id + ')" title="Delete"> <span class="fa fa-trash-o fa-lg" aria-hidden="true"></span></button>'
+		buttonHtml += ' <button onclick="displayEditInventory(' + e.id + ')" title="Add items"><i class="fa fa-cart-plus"></i></button>'
 		var row = '<tr>'
-		+ '<td>' + e.id + '</td>'
+		// + '<td>' + e.id + '</td>'
 		+ '<td>' + e.barcode+ '</td>'
 		+ '<td>' + e.quantity+ '</td>'
 		+ '<td>' + buttonHtml + '</td>'
@@ -198,7 +201,7 @@ function displayUploadData(){
 
 function displayInventory(data){
 	$("#inventory-edit-form input[name=barcode]").val(data.barcode);
-	$("#inventory-edit-form input[name=quantity]").val(data.quantity);	
+	$("#inventory-edit-form input[name=quantity]").val(0);	
 	$("#inventory-edit-form input[name=id]").val(data.id);	
 	$('#edit-inventory-modal').modal('toggle');
 }

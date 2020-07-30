@@ -16,7 +16,7 @@ public class OrderPojo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date date;
 
 	public Date getDate() {

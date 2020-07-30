@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OrderItemForm orderId="53">
+    <Barcode>medimix01</Barcode>
+    <Mrp>20.0</Mrp>
+    <ProductName>medimix soap</ProductName>
+    <Quantity>15</Quantity>
+    <SellingPrice>16.0</SellingPrice>
+</OrderItemForm>

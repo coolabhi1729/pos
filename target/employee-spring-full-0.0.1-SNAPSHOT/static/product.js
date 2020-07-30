@@ -67,16 +67,19 @@ function getProductList(){
 }
 
 function deleteProduct(id){
-	var url = getProductUrl() + "/" + id;
+	var result=confirm("Are you sure to delete this Product?");
+	if(result){
+		var url = getProductUrl() + "/" + id;
 
-	$.ajax({
-	   url: url,
-	   type: 'DELETE',
-	   success: function(data) {
-	   		getProductList();  
-	   },
-	   error: handleAjaxError
-	});
+		$.ajax({
+		   url: url,
+		   type: 'DELETE',
+		   success: function(data) {
+		   		getProductList();  
+		   },
+		   error: handleAjaxError
+		});
+	}
 }
 
 // FILE UPLOAD METHODS
@@ -147,10 +150,10 @@ function displayProductList(data){
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = '<button onclick="deleteProduct(' + e.id + ')">delete</button>'
-		buttonHtml += ' <button onclick="displayEditProduct(' + e.id + ')">edit</button>'
+		var buttonHtml = '<button type="button" onclick="deleteProduct(' + e.id + ')" title="Delete"> <span class="fa fa-trash-o fa-lg" aria-hidden="true"></span></button>'
+		buttonHtml += ' <button onclick="displayEditProduct(' + e.id + ')" title="Edit"><i class="far fa-edit"></i></button>'
 		var row = '<tr>'
-		+ '<td>' + e.id + '</td>'
+		// + '<td>' + e.id + '</td>'
 		+ '<td>' + e.barcode + '</td>'
 		+'<td>'  + e.brand + '</td>'
 		+'<td>'  + e.category + '</td>'

@@ -17,13 +17,12 @@ public class InventoryService {
 
 	@Transactional(rollbackOn = ApiException.class)
 	public void add(InventoryPojo p) throws ApiException {
-		// normalize(p);--->not needed for inventory table
 		if (p.getQuantity() < 0) {
 			throw new ApiException("Quantity can't be lesser than zero!");
 		}
 		//referentialCheck(p);
 		if(dao.select(p.getId())!=null) {
-			throw new ApiException("Inventory item with given id exists!.");
+			throw new ApiException("Inventory item with given barcode exists!.");
 		}
 		dao.insert(p);
 	}

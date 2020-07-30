@@ -40,21 +40,16 @@ public class BrandMasterService {
 	}
 
 	/* Important */
-	// After implementing backend part of product needs to change delete method
-	// since it breaks referential integrity.Time:8.00PM
-	// Delete rule is set here for referential integrity:Time 1.00AM
 	@Transactional(rollbackOn = ApiException.class)
 	public void delete(int id) throws ApiException {
 
 		if (referentialCheck(id)) {
-			throw new ApiException("Referential Integrity failed...");
+			throw new ApiException("There is a corresponding product for this brand and category. Failed to delete!");
 		}
 
 		getCheck(id);
 		dao.delete(id);
 	}
-
-	// referential check is not working giving server error:500
 
 	@Transactional
 	public boolean referentialCheck(int id) throws ApiException {

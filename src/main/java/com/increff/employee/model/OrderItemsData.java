@@ -3,9 +3,11 @@ package com.increff.employee.model;
 public class OrderItemsData extends OrderItemsForm {
 
 	private String productName;
+
 	private int productId;
 	private int productQuantity;
 	private double mrp;
+
 	public String getProductName() {
 		return productName;
 	}
@@ -37,5 +39,4 @@ public class OrderItemsData extends OrderItemsForm {
 	public void setMrp(double mrp) {
 		this.mrp = mrp;
 	}
-
 }

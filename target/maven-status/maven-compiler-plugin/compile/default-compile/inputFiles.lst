@@ -33,9 +33,11 @@
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/pojo/OrderPojo.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/dao/BrandMatserInMemDao.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/model/BrandMasterData.java
+/home/opener/Desktop/pos/src/main/java/com/increff/employee/dao/SalesReportDao.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/service/BrandMasterService.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/controller/AbstractUiController.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/util/IOUtil.java
+/home/opener/Desktop/pos/src/main/java/com/increff/employee/model/Invoice.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/spring/SpringConfig.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/pojo/ProductPojo.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/controller/AppUiController.java
@@ -52,6 +54,7 @@
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/model/MessageData.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/model/OrderItemsForm.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/controller/AboutApiController.java
+/home/opener/Desktop/pos/src/main/java/com/increff/employee/model/OrderData.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/spring/DbConfig.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/service/ProductService.java
 /home/opener/Desktop/pos/src/main/java/com/increff/employee/service/OrderService.java

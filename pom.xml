@@ -29,6 +29,7 @@
 		<h2.version>1.4.200</h2.version>
 		<javax.servlet.version>3.1.0</javax.servlet.version>
 		<commons-dbcp.version>1.4</commons-dbcp.version>
+		<fop.version>2.3</fop.version>
 
 		<!-- Jetty configuration -->
 		<jetty.version>9.4.21.v20190926</jetty.version>
@@ -179,6 +180,27 @@
 			<version>${javax.servlet.version}</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>fop</artifactId>
+			<version>${fop.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
@@ -236,7 +258,7 @@
 
 		</plugins>
 	</build>
-	
+
 	<reporting>
 		<plugins>
 			<!-- SureFire Report plugin as part of site generation -->

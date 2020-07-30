@@ -11,7 +11,7 @@ import com.increff.employee.pojo.OrderPojo;
 
 @Repository
 public class OrderDao extends AbstractDao {
-//	private static String select_id = "select p from OrderPojo p where id=:id";
+	private static String select_id = "select p from OrderPojo p where id=:id";
 	private static String select_all = "select p from OrderPojo p";
 	private static String select_by_date = "SELECT p FROM OrderPojo p WHERE p.date BETWEEN :startDate and :endDate";
 //	private static String delete_id = "delete from OrderPojo p where id=:id";
@@ -32,5 +32,12 @@ public class OrderDao extends AbstractDao {
 		query.setParameter("startDate", startDate);
 		query.setParameter("endDate", endDate);
 		return query.getResultList();
+	}
+
+	public OrderPojo select(int id) {
+		// TODO Auto-generated method stub
+		TypedQuery<OrderPojo> query = getQuery(select_id, OrderPojo.class);
+		query.setParameter("id", id);
+		return getSingle(query);
 	}
 }

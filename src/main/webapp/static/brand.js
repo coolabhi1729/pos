@@ -67,16 +67,19 @@ function getBrandList(){
 }
 
 function deleteBrand(id){
-	var url = getBrandUrl() + "/" + id;
+	var result= confirm("Are you sure to delete this?");
+	if(result){
+		var url = getBrandUrl() + "/" + id;
 
-	$.ajax({
-	   url: url,
-	   type: 'DELETE',
-	   success: function(data) {
-	   		getBrandList();  
-	   },
-	   error: handleAjaxError
-	});
+		$.ajax({
+		   url: url,
+		   type: 'DELETE',
+		   success: function(data) {
+		   		getBrandList();  
+		   },
+		   error: handleAjaxError
+		});
+	}
 }
 
 // FILE UPLOAD METHODS
@@ -147,10 +150,10 @@ function displayBrandList(data){
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = '<button onclick="deleteBrand(' + e.id + ')">delete</button>'
-		buttonHtml += ' <button onclick="displayEditBrand(' + e.id + ')">edit</button>'
+		var buttonHtml = '<button type="button" onclick="deleteBrand(' + e.id + ')" title="Delete"> <span class="fa fa-trash-o fa-lg" aria-hidden="true"></span></button>'
+		buttonHtml += ' <button onclick="displayEditBrand(' + e.id + ')" title="Edit"><i class="far fa-edit"></i></button>'
 		var row = '<tr>'
-		+ '<td>' + e.id + '</td>'
+		// + '<td>' + e.id + '</td>'
 		+ '<td>' + e.brand + '</td>'
 		+ '<td>'  + e.category + '</td>'
 		+ '<td>' + buttonHtml + '</td>'

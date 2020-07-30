@@ -16,6 +16,7 @@ public class OrderItemsPojo {
 	private int quantity;
 	private double sellingPrice;
 
+	
 	public int getId() {
 		return id;
 	}
@@ -23,7 +24,8 @@ public class OrderItemsPojo {
 	public void setId(int id) {
 		this.id = id;
 	}
-
+	
+	
 	public int getOrderId() {
 		return orderId;
 	}
@@ -31,7 +33,7 @@ public class OrderItemsPojo {
 	public void setOrderId(int orderId) {
 		this.orderId = orderId;
 	}
-
+	
 	public int getProductId() {
 		return productId;
 	}

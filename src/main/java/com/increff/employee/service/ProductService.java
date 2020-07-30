@@ -31,16 +31,16 @@ public class ProductService {
 		normalize(p);
 
 		if (StringUtil.isEmpty(p.getBarcode())) {// here can be change to particular fixed length of string
-			throw new ApiException("Barcode cannot be empty!");
+			throw new ApiException("Barcode cannot be empty. Failed to add!");
 		}
 		if (dao.select(p.getBarcode()) != null) {
-			throw new ApiException("This Barcode already exists:" + p.getBarcode());
+			throw new ApiException("This Barcode already exists:" + p.getBarcode()+" Failed to add!");
 		}
 		if (StringUtil.isEmpty(p.getProduct_name())) {
-			throw new ApiException("Product Name cannot be empty!");
+			throw new ApiException("Product Name cannot be empty. Failed to add!");
 		}
 		if (p.getMrp() <= 0) {
-			throw new ApiException("MRP cannot be zero or less than zero!");
+			throw new ApiException("MRP cannot be zero or less than zero. Failed to add!");
 		}
 		referentialCheck(p);
 
@@ -60,7 +60,7 @@ public class ProductService {
 				return true;
 			}
 		}
-		throw new ApiException("Referential Integrity Broken...Please Enter Valid Brand and category combination!");
+		throw new ApiException("Please Enter Valid Brand and category combination!");
 	}
 
 	@Transactional(rollbackOn = ApiException.class)
@@ -69,7 +69,7 @@ public class ProductService {
 		getCheck(id);
 		//referential check for inventory table
 		if(inventory_dao.select(id)!=null) {
-			throw new ApiException("Referential Integrity Broken. Inventory is not empty for this product");
+			throw new ApiException("Inventory is not empty for this product. Failed to delete!");
 		}
 		dao.delete(id);
 	}
@@ -97,31 +97,27 @@ public class ProductService {
 
 		// Bar code can't be empty
 		if (StringUtil.isEmpty(p.getBarcode())) {
-			throw new ApiException("Barcode cannot remain empty!");
+			throw new ApiException("Barcode cannot remain empty. Failed to update!");
 		}
 
 		// product name can't be empty
 		if (StringUtil.isEmpty(p.getProduct_name())) {
-			throw new ApiException("Product name cannot remain empty!");
+			throw new ApiException("Product name cannot remain empty. Failed to update!");
 		}
 		// check on MRP
 		if (p.getMrp() < 0) {
-			throw new ApiException("MRP must be greater than zero!");
+			throw new ApiException("MRP must be greater than zero. Failed to update!");
 		}
 		// Referential integrity check...select by brand_category combn also done the same
 		referentialCheck(p);
 
-		/*
-		 * Important error here
-		 */
-		// Barcode should be unique check...This logic is not working...I don't know why?
-		// later...1.45PM
+		
 		if (ex.getBarcode().equals(p.getBarcode())) {
 			ex.setBarcode(p.getBarcode());
 		}
 		else {
 			if (dao.select(p.getBarcode()) != null) {
-				throw new ApiException("This barcode exists for other product...lollllz!"+ex.getBarcode()+"  "+p.getBarcode());
+				throw new ApiException("This barcode exists for other product!"+ex.getBarcode()+"  "+p.getBarcode());
 			}
 		}
 		//ex.setBarcode(p.getBarcode());
