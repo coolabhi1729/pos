@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderApiController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">employee-spring</a> &gt; <a href="index.source.html" class="el_package">com.increff.employee.controller</a> &gt; <span class="el_source">OrderApiController.java</span></div><h1>OrderApiController.java</h1><pre class="source lang-java linenums">package com.increff.employee.controller;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
+import javax.xml.bind.JAXBException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.sax.SAXResult;
+import javax.xml.transform.stream.StreamSource;
+
+import org.apache.fop.apps.Fop;
+import org.apache.fop.apps.FopFactory;
+import org.apache.fop.apps.MimeConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.increff.employee.model.OrderItemsData;
+import com.increff.employee.model.OrderItemsForm;
+import com.increff.employee.pojo.InventoryPojo;
+import com.increff.employee.pojo.OrderItemsPojo;
+import com.increff.employee.pojo.OrderPojo;
+import com.increff.employee.pojo.ProductPojo;
+import com.increff.employee.service.ApiException;
+import com.increff.employee.service.InventoryService;
+import com.increff.employee.service.OrderItemsService;
+import com.increff.employee.service.OrderService;
+import com.increff.employee.service.ProductService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api
+@RestController
+<span class="fc" id="L48">public class OrderApiController {</span>
+
+	private static final String PATH_XSL = &quot;./templateInvoice.xsl&quot;;
+
+	@Autowired
+	private ProductService productService;
+	@Autowired
+	private InventoryService inventoryService;
+
+	@Autowired
+	private OrderItemsService orderItemsService;
+
+	@Autowired
+	private OrderService orderService;
+
+	@ApiOperation(value = &quot;Get all orders&quot;)
+	@RequestMapping(path = &quot;/api/order/viewOrders&quot;, method = RequestMethod.GET)
+	public List&lt;OrderPojo&gt; getAll() {
+<span class="nc" id="L66">		return orderService.selectAll();</span>
+	}
+
+	@ApiOperation(value = &quot;Get a product by barcode&quot;)
+	@RequestMapping(path = &quot;/api/order/{barcode}&quot;, method = RequestMethod.GET)
+	public OrderItemsData getProduct(@PathVariable String barcode) throws ApiException {
+<span class="nc" id="L72">		return orderItemsService.getItem(barcode);</span>
+	}
+
+	@ApiOperation(value = &quot;Creates an order&quot;)
+	@RequestMapping(path = &quot;/api/order&quot;, method = RequestMethod.POST)
+	public void addOrder(@RequestBody List&lt;OrderItemsForm&gt; forms)
+			throws ApiException, FileNotFoundException, JAXBException {
+<span class="nc" id="L79">		add(forms);</span>
+<span class="nc" id="L80">	}</span>
+
+	@Transactional(rollbackOn = ApiException.class)
+	private void add(List&lt;OrderItemsForm&gt; forms) throws ApiException, JAXBException, FileNotFoundException {
+<span class="nc" id="L84">		OrderPojo order = new OrderPojo();</span>
+<span class="nc" id="L85">		order = orderService.add(order);</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">		for (OrderItemsForm form : forms) {</span>
+<span class="nc" id="L87">			OrderItemsPojo orderItem = convert(order, form);</span>
+<span class="nc" id="L88">			orderItemsService.add(orderItem);</span>
+<span class="nc" id="L89">		}</span>
+<span class="nc" id="L90">	}</span>
+
+	@Transactional
+	private OrderItemsPojo convert(OrderPojo order, OrderItemsForm form) throws ApiException {
+		// TODO Auto-generated method stub
+<span class="nc" id="L95">		OrderItemsPojo orderItem = new OrderItemsPojo();</span>
+<span class="nc" id="L96">		ProductPojo product = productService.get(form.getBarcode());</span>
+<span class="nc" id="L97">		InventoryPojo inventory = inventoryService.get(product.getId());</span>
+<span class="nc" id="L98">		orderItem.setOrderId(order.getId());</span>
+<span class="nc" id="L99">		orderItem.setProductId(product.getId());</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">		if (form.getQuantity() &gt; inventory.getQuantity()) {</span>
+<span class="nc" id="L101">			throw new ApiException(</span>
+<span class="nc" id="L102">					&quot;Inventory doesn't have sufficient quantity.Problem with this product: &quot; + form.getBarcode());</span>
+		}
+<span class="nc" id="L104">		int quantity = form.getQuantity();</span>
+<span class="nc" id="L105">		orderItem.setQuantity(quantity);</span>
+<span class="nc" id="L106">		inventory.setQuantity(-quantity);</span>
+<span class="nc" id="L107">		inventoryService.updatePlus(inventory.getId(), inventory);</span>
+		
+		//form.setSp(setFractionalDigits(form.getSp()));
+<span class="nc" id="L110">		orderItem.setSellingPrice(form.getSp());</span>
+<span class="nc" id="L111">		return orderItem;</span>
+	}
+
+	@ApiOperation(value = &quot;Generate Invoice&quot;)
+	@RequestMapping(path = &quot;/api/order/viewOrders/invoice/{id}&quot;, method = RequestMethod.GET)
+	public void get(@PathVariable String id, HttpServletResponse response)
+			throws ApiException, ParserConfigurationException, TransformerException {
+<span class="nc" id="L118">		int idInt = Integer.parseInt(id);</span>
+<span class="nc" id="L119">		orderService.createInvoice(idInt);</span>
+		try {
+
+<span class="nc" id="L122">			FopFactory fopFactory = FopFactory.newInstance(new File(&quot;.&quot;).toURI());</span>
+
+<span class="nc" id="L124">			ByteArrayOutputStream out = new ByteArrayOutputStream();</span>
+<span class="nc" id="L125">			Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);</span>
+<span class="nc" id="L126">			TransformerFactory factory = TransformerFactory.newInstance();</span>
+<span class="nc" id="L127">			Transformer transformer = factory.newTransformer(new StreamSource(PATH_XSL));</span>
+			// Make sure the XSL transformation's result is piped through to FOP
+<span class="nc" id="L129">			Result res = new SAXResult(fop.getDefaultHandler());</span>
+			// Setup input
+<span class="nc" id="L131">			Source src = new StreamSource(new File(&quot;./src/main/resources/com/increff/employee/invoice.xml&quot;));</span>
+
+<span class="nc" id="L133">			transformer.transform(src, res);</span>
+<span class="nc" id="L134">			response.setContentType(&quot;application/pdf&quot;);</span>
+<span class="nc" id="L135">			response.setContentLength(out.size());</span>
+
+<span class="nc" id="L137">			response.getOutputStream().write(out.toByteArray());</span>
+<span class="nc" id="L138">			response.getOutputStream().flush();</span>
+<span class="nc" id="L139">		} catch (Exception e) {</span>
+<span class="nc" id="L140">			e.printStackTrace();</span>
+<span class="nc" id="L141">		}</span>
+<span class="nc" id="L142">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

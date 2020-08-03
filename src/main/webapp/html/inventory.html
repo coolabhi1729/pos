@@ -17,12 +17,6 @@
 	 <div class="col-12">
 			<form class="form-inline" id="inventory-form">
 
-			  <!-- <div class="form-group">
-			    <label for="inputId" class="col-sm-2 col-form-label">Id</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" name="id" id="inputId" placeholder="Enter Id">
-			    </div>
-			  </div> -->
 			  <div class="form-group">
 			    <label for="inputBarcode" class="col-sm-2 col-form-label">Barcode</label>
 			    <div class="col-sm-10">
@@ -36,11 +30,11 @@
 			      <input type="text" class="form-control" name="quantity" id="inputQuantity" placeholder="Enter Quantity">
 			    </div>
 			  </div>
-			  <button type="button" class="btn btn-primary" id="add-inventory">Add</button>
+			  <button type="button" class="btn btn-success" id="add-inventory">Add</button>
 			  &nbsp;
-			  <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
+			  <button type="button" class="btn btn-success" id="refresh-data">Refresh</button>
 			  &nbsp;
-			  <button type="button" class="btn btn-primary" id="upload-data">Upload</button>
+			  <button type="button" class="btn btn-success" id="upload-data">Upload</button>
 			</form>
 	 </div>	
 </div> 
@@ -161,6 +155,32 @@
       </div>
     </div>
   </div>
+</div>
+
+ <div class="toast" id="addtoast" role="status" aria-live="polite" aria-atomic="true" data-delay="2000" style="position: absolute; top: 1rem; right: 1rem;">
+			  <div class="toast-header">
+
+			    <strong class="mr-auto">Add !</strong>
+			    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+			      <span aria-hidden="true">&times;</span>
+			    </button>
+			  </div>
+			  <div class="toast-body">
+			   New Product added into Inventory successfully.
+			 </div>
+</div>
+
+<div class="toast" id="updatetoast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000" style="position: absolute; top: 1rem; right: 1rem;">
+			  <div class="toast-header">
+
+			    <strong class="mr-auto">More Items Added !</strong>
+			    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+			      <span aria-hidden="true">&times;</span>
+			    </button>
+			  </div>
+			  <div class="toast-body">
+			   Products added to Inventory successfully.
+			 </div>
 </div>
 
 </div> <!-- Container end-->

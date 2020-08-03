@@ -11,8 +11,20 @@
 
 <div class="container">
 
-<h3>Brand Report</h3>
+<h3><b><i>Brand Report</i></b></h3>
 
+<div class="row">
+	<button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
+	&nbsp;
+	&nbsp;
+	<button type="button" class="btn btn-info" id="download-brand-data">Download TSV</button>
+</div> 
+
+
+<!-- Blank Row -->
+<div class="row">
+	&nbsp;
+</div>
 <!-- Blank Row -->
 <div class="row">
 	&nbsp;
@@ -48,6 +60,7 @@
 
 
 </div><!--Container End-->
+
 <footer th:replace="snippets.html :: name_footer"></footer>
 <!-- File product.js is calling from here -->
 <script th:src="@{/static/brandReport.js}"/></script>

@@ -49,6 +49,7 @@ function addOrderItem(){
 	   			orderItemsData[barcode][1]=response.productQuantity;
 	   		}
 	   		displayOrderItemsList();
+	   		$('#addtoast').toast('show');
 	   }
 	},
 	   error: handleAjaxError
@@ -91,6 +92,7 @@ function addOrder(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
+	   	$("#confirmtoast").toast('show');
 	   },
 	   error: handleAjaxError
 	});
@@ -122,6 +124,7 @@ function updateOrderItem(event){
 	orderItemsData[barcode][1]=quantity;
 	orderItemsData[barcode][2]=sp;
 	displayOrderItemsList();
+	$('#updatetoast').toast('show');
 	//Get the ID
 }
 
@@ -134,14 +137,14 @@ function displayOrderItemsList(){
 	var id=1;
 	var total=0;
 	for(var i in orderItemsData){
-		var buttonHtml = ' <button onclick="displayOrderItem(\'' + i + '\')" title="Edit This"><i class="far fa-edit"></i></button>'
-		buttonHtml +=	' <button onclick="deleteOrderItem(\''+ i + '\')" title="Delete This"><span class="fa fa-trash-o fa-lg" aria-hidden="true"></span></button>'
+		var buttonHtml = ' <button onclick="displayOrderItem(\'' + i + '\')" title="Edit This"><i class="btn-outline-primary far fa-edit"></i></button>'
+		buttonHtml +=	' <button onclick="deleteOrderItem(\''+ i + '\')" title="Delete This"><span class="btn-outline-danger fa fa-trash-o fa-lg" aria-hidden="true"></span></button>'
 		var row = '<tr>'
 		+ '<td>' + id++ + '</td>'
 		+ '<td>' + orderItemsData[i][0] + '</td>'
 		+ '<td>' + orderItemsData[i][1] + '</td>'
 		+ '<td>' + orderItemsData[i][2] + '</td>'
-		+ '<td>' + orderItemsData[i][1]*orderItemsData[i][2]+ '</td>'
+		+ '<td>' + (orderItemsData[i][1]*orderItemsData[i][2]).toFixed(2)+ '</td>'
 		+ '<td>' + buttonHtml + '</td>'
 		+ '</tr>';
 		total+=orderItemsData[i][1]*orderItemsData[i][2];
@@ -152,7 +155,7 @@ function displayOrderItemsList(){
 		+ '<td></td>'
 		+ '<td></td>'
 		+ '<td>Total Amount:</td>'
-		+ '<td>' + total + '</td>'
+		+ '<td>' + total.toFixed(2) + '</td>'
 		+ '<td></td>'
 		+ '</tr>';
 		$tbody.append(row);

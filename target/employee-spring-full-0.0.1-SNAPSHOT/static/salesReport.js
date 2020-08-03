@@ -44,16 +44,30 @@ function displaySalesList(response){
 		var row = '<tr>'
 		+ '<td>'  + e.category + '</td>'
 		+ '<td>'  + e.quantity + '</td>'
-		+ '<td>' + e.revenue + '</td>'//use help from order.js
+		+ '<td>' + (e.revenue).toFixed(2) + '</td>'//use help from order.js
 		+ '</tr>';
         $tbody.append(row);
 	}
 }
 
+/*
+function downloadSalesList(data){
+	var $tbody = $('#sales-report-table').find('tbody');
+	$tbody.empty();
+	downloadData=[];
+
+	for(var i in data){
+		var row = data[i];
+		row.revenue=(row.revenue).toFixed(2);
+		downloadData.push(row);
+	}
+	writeFileData(downloadData);
+}*/
 
 //INITIALIZATION CODE
 function init(){
 	$('#submit-data').click(submitSales);
+	 // $('#download-sales-data').click(downloadSalesList);
 }
 
 $(document).ready(init);

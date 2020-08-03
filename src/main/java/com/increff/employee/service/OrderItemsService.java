@@ -36,14 +36,14 @@ public class OrderItemsService {
 	public OrderItemsData getItem(String barcode) throws ApiException {
 
 		ProductPojo product = productService.get(barcode);
-		if(product==null) {
+		if (product == null) {
 			throw new ApiException("No product has this barcode. Enter correct barcode!");
 		}
 		InventoryPojo inventory = inventoryService.get(product.getId());
-		if(inventory==null) {
+		if (inventory == null) {
 			throw new ApiException("No items exist in the inventory for this product.");
 		}
-		
+
 		OrderItemsData orderItem = new OrderItemsData();
 		orderItem.setBarcode(product.getBarcode());
 		orderItem.setMrp(product.getMrp());

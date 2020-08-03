@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">employee-spring</a> &gt; <a href="index.source.html" class="el_package">com.increff.employee.service</a> &gt; <span class="el_source">OrderService.java</span></div><h1>OrderService.java</h1><pre class="source lang-java linenums">package com.increff.employee.service;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.transaction.Transactional;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import com.increff.employee.dao.OrderDao;
+import com.increff.employee.model.OrderItemsForm;
+import com.increff.employee.pojo.OrderItemsPojo;
+import com.increff.employee.pojo.OrderPojo;
+import com.increff.employee.pojo.ProductPojo;
+
+@Service
+<span class="fc" id="L30">public class OrderService {</span>
+	@Autowired
+	private OrderDao dao;
+	@Autowired
+	private OrderItemsService orderItemsService;
+	@Autowired
+	private ProductService productService;
+
+	@Transactional(rollbackOn = ApiException.class)
+	public OrderPojo add(OrderPojo orderPojo) {
+<span class="nc" id="L40">		OrderPojo order = dao.add(orderPojo);</span>
+<span class="nc" id="L41">		return order;</span>
+	}
+
+	@Transactional(rollbackOn = ApiException.class)
+	public List&lt;OrderPojo&gt; selectByDate(Date startDate, Date endDate) {
+<span class="nc" id="L46">		return dao.selectByDate(startDate, endDate);</span>
+	}
+
+	@Transactional
+	public List&lt;OrderPojo&gt; selectAll() {
+<span class="nc" id="L51">		return dao.selectAll();</span>
+	}
+
+	@Transactional
+	public OrderPojo select(int id) {
+<span class="nc" id="L56">		return dao.select(id);</span>
+	}
+
+	@Transactional
+	public void createInvoice(int id) throws ApiException, ParserConfigurationException, TransformerException {
+<span class="nc" id="L61">		List&lt;OrderItemsPojo&gt; orderItems = orderItemsService.getOrder(id);</span>
+<span class="nc" id="L62">		List&lt;OrderItemsForm&gt; orderItemsForm = new ArrayList&lt;OrderItemsForm&gt;();</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">		for (OrderItemsPojo pojo : orderItems) {</span>
+<span class="nc" id="L64">			OrderItemsForm form = new OrderItemsForm();</span>
+<span class="nc" id="L65">			form.setQuantity(pojo.getQuantity());</span>
+<span class="nc" id="L66">			ProductPojo productPojo = productService.get(pojo.getProductId());</span>
+<span class="nc" id="L67">			form.setBarcode(productPojo.getBarcode());</span>
+<span class="nc" id="L68">			form.setSp(pojo.getSellingPrice());</span>
+<span class="nc" id="L69">			orderItemsForm.add(form);</span>
+<span class="nc" id="L70">		}</span>
+<span class="nc" id="L71">		make(orderItemsForm, id);</span>
+<span class="nc" id="L72">	}</span>
+
+<span class="fc" id="L74">	public final String xmlFilePath = &quot;./src/main/resources/com/increff/employee/invoice.xml&quot;;</span>
+
+	public void make(List&lt;OrderItemsForm&gt; formList, int id)
+			throws ParserConfigurationException, ApiException, TransformerException {
+<span class="nc" id="L78">		DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();</span>
+
+<span class="nc" id="L80">		DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();</span>
+
+<span class="nc" id="L82">		Document document = documentBuilder.newDocument();</span>
+
+		// root element
+<span class="nc" id="L85">		Element root = document.createElement(&quot;InvoiceData&quot;);</span>
+<span class="nc" id="L86">		document.appendChild(root);</span>
+<span class="nc" id="L87">		Double sum = 0.0;</span>
+<span class="nc" id="L88">		int sno = 1;</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">		for (OrderItemsForm form : formList) {</span>
+<span class="nc" id="L90">			ProductPojo p = productService.get(form.getBarcode());</span>
+<span class="nc" id="L91">			Element product = document.createElement(&quot;invoice&quot;);</span>
+<span class="nc" id="L92">			root.appendChild(product);</span>
+<span class="nc" id="L93">			Element count = document.createElement(&quot;sno&quot;);</span>
+<span class="nc" id="L94">			count.appendChild(document.createTextNode(Integer.toString(sno)));</span>
+<span class="nc" id="L95">			product.appendChild(count);</span>
+<span class="nc" id="L96">			Element product_name = document.createElement(&quot;name&quot;);</span>
+<span class="nc" id="L97">			product_name.appendChild(document.createTextNode(p.getProduct_name()));</span>
+<span class="nc" id="L98">			product.appendChild(product_name);</span>
+<span class="nc" id="L99">			Element barcode = document.createElement(&quot;barcode&quot;);</span>
+<span class="nc" id="L100">			barcode.appendChild(document.createTextNode(p.getBarcode()));</span>
+<span class="nc" id="L101">			product.appendChild(barcode);</span>
+<span class="nc" id="L102">			Element qty = document.createElement(&quot;qty&quot;);</span>
+<span class="nc" id="L103">			qty.appendChild(document.createTextNode(Integer.toString(form.getQuantity())));</span>
+<span class="nc" id="L104">			product.appendChild(qty);</span>
+<span class="nc" id="L105">			Element mrp = document.createElement(&quot;mrp&quot;);</span>
+<span class="nc" id="L106">			mrp.appendChild(document.createTextNode(Double.toString(p.getMrp())));</span>
+<span class="nc" id="L107">			product.appendChild(mrp);</span>
+<span class="nc" id="L108">			Element sp = document.createElement(&quot;sp&quot;);</span>
+<span class="nc" id="L109">			sp.appendChild(document.createTextNode(Double.toString(form.getSp())));</span>
+<span class="nc" id="L110">			product.appendChild(sp);</span>
+<span class="nc" id="L111">			Element totalPrice = document.createElement(&quot;totalPrice&quot;);</span>
+<span class="nc" id="L112">			totalPrice.appendChild(document.createTextNode(Double.toString(form.getQuantity() * form.getSp())));</span>
+<span class="nc" id="L113">			product.appendChild(totalPrice);</span>
+<span class="nc" id="L114">			sum += (form.getSp() * form.getQuantity());</span>
+<span class="nc" id="L115">			sum=Math.floor(sum*100)/100;</span>
+<span class="nc" id="L116">			sno += 1;</span>
+<span class="nc" id="L117">		}</span>
+<span class="nc" id="L118">		Element totalPrice = document.createElement(&quot;totalAmount&quot;);</span>
+<span class="nc" id="L119">		totalPrice.appendChild(document.createTextNode(Double.toString(sum)));</span>
+<span class="nc" id="L120">		root.appendChild(totalPrice);</span>
+
+<span class="nc" id="L122">		Element orderId = document.createElement(&quot;ID&quot;);</span>
+<span class="nc" id="L123">		orderId.appendChild(document.createTextNode(Integer.toString(id)));</span>
+<span class="nc" id="L124">		root.appendChild(orderId);</span>
+
+<span class="nc" id="L126">		TransformerFactory transformerFactory = TransformerFactory.newInstance();</span>
+<span class="nc" id="L127">		Transformer transformer = transformerFactory.newTransformer();</span>
+<span class="nc" id="L128">		DOMSource domSource = new DOMSource(document);</span>
+<span class="nc" id="L129">		StreamResult streamResult = new StreamResult(new File(xmlFilePath));</span>
+
+		// If you use
+		// StreamResult result = new StreamResult(System.out);
+		// the output will be pushed to the standard output ...
+		// You can use that for debugging
+
+<span class="nc" id="L136">		transformer.transform(domSource, streamResult);</span>
+<span class="nc" id="L137">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

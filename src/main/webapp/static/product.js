@@ -19,7 +19,12 @@ function addProduct(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		getProductList();  
+	   		getProductList();
+
+			$('#addtoast').toast('show');
+			$( '#product-form' ).each(function(){
+			    this.reset();
+			});
 	   },
 	   error: handleAjaxError
 	});
@@ -45,7 +50,8 @@ function updateProduct(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		getProductList();   
+	   		getProductList();
+			$('#updatetoast').toast('show'); 
 	   },
 	   error: handleAjaxError
 	});
@@ -60,7 +66,7 @@ function getProductList(){
 	   url: url,
 	   type: 'GET',
 	   success: function(data) {
-	   		displayProductList(data);  
+	   		displayProductList(data);
 	   },
 	   error: handleAjaxError
 	});
@@ -150,8 +156,8 @@ function displayProductList(data){
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = '<button type="button" onclick="deleteProduct(' + e.id + ')" title="Delete"> <span class="fa fa-trash-o fa-lg" aria-hidden="true"></span></button>'
-		buttonHtml += ' <button onclick="displayEditProduct(' + e.id + ')" title="Edit"><i class="far fa-edit"></i></button>'
+		var buttonHtml = '<button type="button" onclick="deleteProduct(' + e.id + ')" title="Delete"> <span class="btn-outline-danger fa fa-trash-o fa-lg" aria-hidden="true"></span></button>'
+		buttonHtml += ' <button onclick="displayEditProduct(' + e.id + ')" title="Edit"><i class="btn-outline-primary far fa-edit"></i></button>'
 		var row = '<tr>'
 		// + '<td>' + e.id + '</td>'
 		+ '<td>' + e.barcode + '</td>'
@@ -220,7 +226,6 @@ function displayProduct(data){
 	$('#edit-product-modal').modal('toggle');
 }
 
-
 //INITIALIZATION CODE
 function init(){
 	$('#add-product').click(addProduct);
@@ -229,7 +234,7 @@ function init(){
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
-    $('#productFile').on('change', updateFileName)
+    $('#productFile').on('change', updateFileName);
 }
 
 $(document).ready(init);

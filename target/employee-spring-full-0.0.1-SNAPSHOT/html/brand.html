@@ -28,11 +28,13 @@
 			      <input type="text" class="form-control" name="category" id="inputCategory" placeholder="enter category">
 			    </div>
 			  </div>
-			  <button type="button" class="btn btn-primary" id="add-brand">Add</button>
+			  
+			  <button type="button" class="btn btn-success" id="add-brand">Add</button>
+
 			  &nbsp;
-			  <button type="button" class="btn btn-primary" id="refresh-data">Refresh</button>
+			  <button type="button" class="btn btn-success" id="refresh-data">Refresh</button>
 			  &nbsp;
-			  <button type="button" class="btn btn-primary" id="upload-data">Upload</button>
+			  <button type="button" class="btn btn-success" id="upload-data">Upload</button>
 			</form>
 	 </div>	
 </div> 
@@ -102,6 +104,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
         <button type="button" class="btn btn-primary" id="update-brand">Update</button>
+
       </div>
     </div>
   </div>
@@ -161,6 +164,33 @@
     </div>
   </div>
 </div>
+
+<div class="toast" id="updatetoast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000" style="position: absolute; top: 1rem; right: 1rem;">
+			  <div class="toast-header">
+
+			    <strong class="mr-auto">Update !</strong>
+			    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+			      <span aria-hidden="true">&times;</span>
+			    </button>
+			  </div>
+			  <div class="toast-body">
+			   Item Updated successfully.
+			 </div>
+</div>
+
+<div class="toast" id="addtoast" role="status" aria-live="polite" aria-atomic="true" data-delay="2000" style="position: absolute; top: 1rem; right: 1rem;">
+			  <div class="toast-header">
+
+			    <strong class="mr-auto">Add !</strong>
+			    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+			      <span aria-hidden="true">&times;</span>
+			    </button>
+			  </div>
+			  <div class="toast-body">
+			   Item Added successfully.
+			   </div>
+ </div>
+
 </div> <!-- Container end-->
 
 

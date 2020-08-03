@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderItemsService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">employee-spring</a> &gt; <a href="index.source.html" class="el_package">com.increff.employee.service</a> &gt; <span class="el_source">OrderItemsService.java</span></div><h1>OrderItemsService.java</h1><pre class="source lang-java linenums">package com.increff.employee.service;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.increff.employee.dao.OrderItemsDao;
+import com.increff.employee.model.OrderItemsData;
+import com.increff.employee.pojo.InventoryPojo;
+import com.increff.employee.pojo.OrderItemsPojo;
+import com.increff.employee.pojo.ProductPojo;
+
+@Service
+<span class="fc" id="L16">public class OrderItemsService {</span>
+	@Autowired
+	private OrderItemsDao dao;
+
+	@Autowired
+	private ProductService productService;
+	@Autowired
+	private InventoryService inventoryService;
+
+	@Transactional(rollbackOn = ApiException.class)
+	public void add(OrderItemsPojo p) {
+<span class="nc" id="L27">		dao.add(p);</span>
+<span class="nc" id="L28">	}</span>
+
+	@Transactional(rollbackOn = ApiException.class)
+	public List&lt;OrderItemsPojo&gt; getOrder(int orderId) {
+<span class="nc" id="L32">		return dao.getOrder(orderId);</span>
+	}
+
+	@Transactional
+	public OrderItemsData getItem(String barcode) throws ApiException {
+
+<span class="nc" id="L38">		ProductPojo product = productService.get(barcode);</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">		if (product == null) {</span>
+<span class="nc" id="L40">			throw new ApiException(&quot;No product has this barcode. Enter correct barcode!&quot;);</span>
+		}
+<span class="nc" id="L42">		InventoryPojo inventory = inventoryService.get(product.getId());</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">		if (inventory == null) {</span>
+<span class="nc" id="L44">			throw new ApiException(&quot;No items exist in the inventory for this product.&quot;);</span>
+		}
+
+<span class="nc" id="L47">		OrderItemsData orderItem = new OrderItemsData();</span>
+<span class="nc" id="L48">		orderItem.setBarcode(product.getBarcode());</span>
+<span class="nc" id="L49">		orderItem.setMrp(product.getMrp());</span>
+<span class="nc" id="L50">		orderItem.setProductName(product.getProduct_name());</span>
+<span class="nc" id="L51">		orderItem.setProductId(product.getId());</span>
+<span class="nc" id="L52">		orderItem.setProductQuantity(inventory.getQuantity());</span>
+<span class="nc" id="L53">		return orderItem;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

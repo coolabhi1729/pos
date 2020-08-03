@@ -35,10 +35,35 @@ function displayBrandList(data){
 	}
 }
 
+function downloadBrandData(){
+	var url = getBrandUrl();
+	$.ajax({
+	   url: url,
+	   type: 'GET',
+	   success: function(data) {
+	   		downloadBrandList(data);  
+	   },
+	   error: handleAjaxError
+	});
+
+}
+function downloadBrandList(data){
+	var $tbody = $('#brand-report-table').find('tbody');
+	$tbody.empty();
+	downloadData=[];
+
+	for(var i in data){
+		var row = data[i];
+		downloadData.push(row);
+	}
+	writeFileData(downloadData);
+	getBrandList();
+}
 
 //INITIALIZATION CODE
 function init(){
 	$('#refresh-data').click(getBrandList);
+    $('#download-brand-data').click(downloadBrandData);
 }
 
 $(document).ready(init);

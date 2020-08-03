@@ -24,8 +24,9 @@ public class SalesReportService {
 		if (form.getEndDate() == null) {
 			form.setEndDate(new Date());
 		}
-		if (form.getEndDate().before(form.getStartDate()))
-			throw new ApiException("End Date must not be before Start Date!");
+		if (form.getEndDate().before(form.getStartDate())) {
+			throw new ApiException("End Date must be after Start Date!");
+		}
 		
 		form.setEndDate(addToDate(form.getEndDate(), 1));
 		List<SalesReportData> reportDataList = new ArrayList<SalesReportData>();

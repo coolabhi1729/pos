@@ -38,9 +38,36 @@ function displayInventoryList(data){
 	}
 }
 
+
+function downloadInventoryData(){
+	var url = getInventoryUrl();
+	$.ajax({
+	   url: url,
+	   type: 'GET',
+	   success: function(data) {
+	   		downloadInventoryList(data);  
+	   },
+	   error: handleAjaxError
+	});
+
+}
+function downloadInventoryList(data){
+	var $tbody = $('#inventory-report-table').find('tbody');
+	$tbody.empty();
+	downloadData=[];
+
+	for(var i in data){
+		var row = data[i];
+		downloadData.push(row);
+	}
+	writeFileData(downloadData);
+	getInventoryList();
+}
+
 //INITIALIZATION CODE
 function init(){
 	$('#refresh-data').click(getInventoryList);
+	$('#download-inventory-data').click(downloadInventoryData);
 }
 
 $(document).ready(init);

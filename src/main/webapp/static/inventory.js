@@ -19,7 +19,11 @@ function addInventory(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		getInventoryList();  
+	   		getInventoryList();
+	   		$('#addtoast').toast('show');
+	   		$( '#inventory-form' ).each(function(){
+			    this.reset();
+			}); 
 	   },
 	   error: handleAjaxError
 	});
@@ -45,7 +49,8 @@ function updateInventory(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		getInventoryList();   
+	   		getInventoryList();
+	   		$('#updatetoast').toast('show');   
 	   },
 	   error: handleAjaxError
 	});
@@ -145,8 +150,8 @@ function displayInventoryList(data){
 	for(var i in data){
 		var e = data[i];
 		
-		var buttonHtml = '<button type="button" onclick="deleteInventory(' + e.id + ')" title="Delete"> <span class="fa fa-trash-o fa-lg" aria-hidden="true"></span></button>'
-		buttonHtml += ' <button onclick="displayEditInventory(' + e.id + ')" title="Add items"><i class="fa fa-cart-plus"></i></button>'
+		var buttonHtml = '<button type="button" onclick="deleteInventory(' + e.id + ')" title="Delete"> <span class="btn-outline-danger fa fa-trash-o fa-lg" aria-hidden="true"></span></button>'
+		buttonHtml += ' <button onclick="displayEditInventory(' + e.id + ')" title="Add items"><i class="btn-outline-primary fa fa-cart-plus"></i></button>'
 		var row = '<tr>'
 		// + '<td>' + e.id + '</td>'
 		+ '<td>' + e.barcode+ '</td>'

@@ -34,29 +34,28 @@ public class OrderService {
 	private OrderItemsService orderItemsService;
 	@Autowired
 	private ProductService productService;
-	
-	
+
 	@Transactional(rollbackOn = ApiException.class)
 	public OrderPojo add(OrderPojo orderPojo) {
 		OrderPojo order = dao.add(orderPojo);
 		return order;
 	}
-	
+
 	@Transactional(rollbackOn = ApiException.class)
 	public List<OrderPojo> selectByDate(Date startDate, Date endDate) {
 		return dao.selectByDate(startDate, endDate);
 	}
-	
+
 	@Transactional
 	public List<OrderPojo> selectAll() {
 		return dao.selectAll();
 	}
-	
+
 	@Transactional
 	public OrderPojo select(int id) {
 		return dao.select(id);
 	}
-	
+
 	@Transactional
 	public void createInvoice(int id) throws ApiException, ParserConfigurationException, TransformerException {
 		List<OrderItemsPojo> orderItems = orderItemsService.getOrder(id);
@@ -71,7 +70,7 @@ public class OrderService {
 		}
 		make(orderItemsForm, id);
 	}
-	
+
 	public final String xmlFilePath = "./src/main/resources/com/increff/employee/invoice.xml";
 
 	public void make(List<OrderItemsForm> formList, int id)
@@ -113,6 +112,7 @@ public class OrderService {
 			totalPrice.appendChild(document.createTextNode(Double.toString(form.getQuantity() * form.getSp())));
 			product.appendChild(totalPrice);
 			sum += (form.getSp() * form.getQuantity());
+			sum=Math.floor(sum*100)/100;
 			sno += 1;
 		}
 		Element totalPrice = document.createElement("totalAmount");
@@ -134,6 +134,5 @@ public class OrderService {
 		// You can use that for debugging
 
 		transformer.transform(domSource, streamResult);
-
 	}
 }

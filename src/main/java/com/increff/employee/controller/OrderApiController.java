@@ -3,6 +3,7 @@ package com.increff.employee.controller;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -45,9 +46,9 @@ import io.swagger.annotations.ApiOperation;
 @Api
 @RestController
 public class OrderApiController {
-	
+
 	private static final String PATH_XSL = "./templateInvoice.xsl";
-	
+
 	@Autowired
 	private ProductService productService;
 	@Autowired
@@ -58,15 +59,13 @@ public class OrderApiController {
 
 	@Autowired
 	private OrderService orderService;
-	
-	
 
 	@ApiOperation(value = "Get all orders")
 	@RequestMapping(path = "/api/order/viewOrders", method = RequestMethod.GET)
 	public List<OrderPojo> getAll() {
 		return orderService.selectAll();
 	}
-	
+
 	@ApiOperation(value = "Get a product by barcode")
 	@RequestMapping(path = "/api/order/{barcode}", method = RequestMethod.GET)
 	public OrderItemsData getProduct(@PathVariable String barcode) throws ApiException {
@@ -106,10 +105,12 @@ public class OrderApiController {
 		orderItem.setQuantity(quantity);
 		inventory.setQuantity(-quantity);
 		inventoryService.updatePlus(inventory.getId(), inventory);
+		
+		//form.setSp(setFractionalDigits(form.getSp()));
 		orderItem.setSellingPrice(form.getSp());
 		return orderItem;
 	}
-	
+
 	@ApiOperation(value = "Generate Invoice")
 	@RequestMapping(path = "/api/order/viewOrders/invoice/{id}", method = RequestMethod.GET)
 	public void get(@PathVariable String id, HttpServletResponse response)

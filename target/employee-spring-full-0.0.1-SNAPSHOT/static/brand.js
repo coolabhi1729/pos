@@ -20,6 +20,10 @@ function addBrand(event){
        },	   
 	   success: function(response) {
 	   		getBrandList();  
+	   		$('#addtoast').toast('show');
+	   		$( '#brand-form' ).each(function(){
+			    this.reset();
+			});
 	   },
 	   error: handleAjaxError
 	});
@@ -45,7 +49,9 @@ function updateBrand(event){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	   		getBrandList();   
+	   		getBrandList(); 
+	   		
+	   		$("#updatetoast").toast('show');
 	   },
 	   error: handleAjaxError
 	});
@@ -150,8 +156,8 @@ function displayBrandList(data){
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = '<button type="button" onclick="deleteBrand(' + e.id + ')" title="Delete"> <span class="fa fa-trash-o fa-lg" aria-hidden="true"></span></button>'
-		buttonHtml += ' <button onclick="displayEditBrand(' + e.id + ')" title="Edit"><i class="far fa-edit"></i></button>'
+		var buttonHtml = '<button type="button" onclick="deleteBrand(' + e.id + ')" title="Delete"> <span class="btn-outline-danger fa fa-trash-o fa-lg" aria-hidden="true"></span></button>'
+		buttonHtml += ' <button onclick="displayEditBrand(' + e.id + ')" title="Edit"><i class="btn-outline-primary far fa-edit"></i></button>'
 		var row = '<tr>'
 		// + '<td>' + e.id + '</td>'
 		+ '<td>' + e.brand + '</td>'
